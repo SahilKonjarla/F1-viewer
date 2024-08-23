@@ -1,0 +1,10 @@
+.rightbar {
+  position: sticky;
+  top: 50px;
+  height: calc(100vh - 0px);
+  overflow: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

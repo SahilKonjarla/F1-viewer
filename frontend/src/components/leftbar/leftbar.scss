@@ -1,0 +1,17 @@
+.leftbar {
+  position: sticky;
+  top: 50px;
+  height: calc(100vh - 0px);
+  overflow: scroll;
+  flex: 20;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .race-calendar {
+    width:100%;
+    height: auto;
+    padding: 5px;
+  }
+}
