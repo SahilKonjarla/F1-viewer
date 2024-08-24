@@ -1,9 +1,29 @@
 import React, {useState, useEffect} from 'react';
 import RaceHeader from "./RaceHeader";
 import RaceSchedule from "./RaceSchedule";
-import "./racecalendar.scss"
+import "./racecalendar.scss";
 
 const RaceCalendar = () => {
+
+    let fetchedData = null;
+
+    async function getWeekendData() {
+        try {
+            const response = await fetch('https://api.openf1.org/v1/sessions?year=2024&location=Sakhir');
+            fetchedData = await response.json();
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
+    async function useData() {
+        await getWeekendData();
+        console.log(fetchedData);
+    }
+
+    useData();
+
+
     const raceWeekends = [
         {
             round: 1,
@@ -59,7 +79,6 @@ const RaceCalendar = () => {
             },
         }
     ]
-
 
     const [currentRace, setCurrentRace] = useState(null);
 
