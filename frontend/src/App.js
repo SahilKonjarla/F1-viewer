@@ -1,22 +1,19 @@
 import './App.css';
-import React from "react";
-import {createBrowserRouter, Navigate, Outlet, RouterProvider} from "react-router-dom";
-import InfoTable from "./components/info-table/info-table";
 import LeftBar from "./components/leftbar/LeftBar";
 import RightBar from "./components/rightbar/RightBar";
 import MainBar from "./components/mainbar/MainBar";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 
 function App() {
-
     const Layout = () => {
         return (
-            <div className={"wrapper"}>
-                <div style={{display: "flex"}}>
-                    <LeftBar/>
-                    <div style={{flex: 6}}>
-                        <Outlet/>
+            <div className="wrapper">
+                <div style={{ display: "flex" }}>
+                    <LeftBar />
+                    <div style={{ flex: 6 }}>
+                        <Outlet />
                     </div>
-                    <RightBar/>
+                    <RightBar />
                 </div>
             </div>
         );
@@ -29,17 +26,15 @@ function App() {
             children: [
                 {
                     path: "/",
-                    element: <MainBar/>,
+                    element: <MainBar />,
                 }
             ]
         }
     ]);
 
-  return (
-      <div>
-          <RouterProvider router={router} />
-      </div>
-  );
+    return (
+        <RouterProvider router={router} />
+    );
 }
 
 export default App;
