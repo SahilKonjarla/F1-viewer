@@ -22,5 +22,18 @@ def get_session_data():
     else:
         return jsonify({"error": "Failed to retrieve data"}), response.status_code
 
+@app.route('/location')
+def get_location_data():
+    api_url = 'https://api.openf1.org/v1/location?session_key=9161&driver_number=81&date%3E2023-09-16T13:03:35.200&date%3C2023-09-16T13:03:35.800'
+    response = requests.get(api_url)
+
+    if response.status_code == 200:
+        data = response.json()
+        res = make_response(jsonify(data))
+        res.headers['Access-Control-Allow-Origin'] = '*'
+        return res
+    else:
+        return jsonify({"error": "Failed to retrieve data"}), response.status_code
+
 if __name__ == '__main__':
     app.run(debug=True)

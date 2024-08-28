@@ -1,4 +1,4 @@
-const raceWeekends = [
+const RaceWeekends = [
     {
         round: 1,
         raceName: "Bahrain Grand Prix",
@@ -457,4 +457,4 @@ const raceWeekends = [
     },
 ]
 
-export default raceWeekends;
+export default RaceWeekends;

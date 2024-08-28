@@ -7,27 +7,9 @@ import "./tracklocation.scss";
 
 const TrackLocation = () => {
     const [data, setData] = useState(null);
-    const race = RaceWeekend[0]
-
-    const fetchData = async () => {
-        try {
-            const res = await axios.get('http://127.0.0.1:5000/session')
-            setData(res.data);
-        } catch (err) {
-            console.error('Error fetching data', err);
-        }
-    }
-
-    useEffect(() => {
-        fetchData();
-
-        /*const interval = setInterval(() => {
-            fetchData();
-        }, 3700);
-
-        return () => clearInterval(interval);*/
-    }, []);
-
+    const currentDate = new Date();
+    const nextRace = RaceWeekend.find(race => new Date(race.endDate) >= currentDate);
+    const race = nextRace || RaceWeekend[0];
 
     return (
         <div className="track-location">
