@@ -1,0 +1,24 @@
+.track-container {
+  position: relative;
+  width: 400px; // Set the container width to the chart size
+  height: 300px; // Set the container height to the chart size
+  display: flex;
+  justify-content: flex-end;
+}
+
+.track-image {
+  position: absolute;
+  width: 400px;
+  height: 300px;
+  object-fit: cover; // Ensure the image covers the entire container
+}
+
+.scatter-chart {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; // Expand the chart to fit the container width
+  height: 100%; // Expand the chart to fit the container height
+  z-index: 2;
+  pointer-events: none; // Ensure chart interactions don't interfere with the image
+}
