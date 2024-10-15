@@ -5,26 +5,33 @@ import { ScatterChart } from '@mui/x-charts/ScatterChart';
 
 const DutchGP = () => {
     const [data, setData] = useState([]);
-    const imageDimensions = {width: 1920, height: 1080};
     const chartDimensions = {width: 500, height: 300};
 
 
     const fetchData = async () => {
         try {
             const res = await axios.get('http://127.0.0.1:5000/location');
-            const minX = Math.min(...res.data.map(item => item.x));
-            const maxX = Math.max(...res.data.map(item => item.x));
-            const minY = Math.min(...res.data.map(item => item.y));
-            const maxY = Math.max(...res.data.map(item => item.y));
+            let minX = Math.min(...res.data.map(item => item.x));
+            let maxX = Math.max(...res.data.map(item => item.x));
+            let minY = Math.min(...res.data.map(item => item.y));
+            let maxY = Math.max(...res.data.map(item => item.y));
 
-            // Scaling factors
-            const scaleX = chartDimensions.width / imageDimensions.width;
-            const scaleY = chartDimensions.height / imageDimensions.height;
+            // Ensure a minimum range to avoid zero range issues
+            if (maxX === minX) {
+                maxX += 1;
+                minX -= 1;
+            }
+            if (maxY === minY) {
+                maxY += 1;
+                minY -= 1;
+            }
+
+            const scaleX = chartDimensions.width / (maxX - minX);
+            const scaleY = chartDimensions.height / (maxY - minY);
 
             const formattedData = res.data.map((item, index) => {
-                // Map the data to the chart's dimensions
-                let adjustedX = ((item.x - minX) / (maxX - minX)) * imageDimensions.width * scaleX;
-                let adjustedY = chartDimensions.height - ((item.y - minY) / (maxY - minY)) * imageDimensions.height * scaleY;
+                let adjustedX = (item.x - minX) * scaleX;
+                let adjustedY = chartDimensions.height - (item.y - minY) * scaleY;
 
                 adjustedX = chartDimensions.width - adjustedX;
 
@@ -36,7 +43,7 @@ const DutchGP = () => {
             });
 
             setData(formattedData);
-            console.log(res.data);
+            console.log(formattedData);
         } catch (err) {
             console.error('Error fetching data', err);
         }
@@ -70,8 +77,8 @@ const DutchGP = () => {
                     xAxis={[{ min: 0, max: 540}]}
                     yAxis={[{ min: 0, max: 300}]}
                     margin={{top:10, left: 40, right: 16, bottom: 13}}
-                    leftAxis={null}
-                    bottomAxis={null}
+                    //leftAxis={null}
+                    //bottomAxis={null}
                     disableAxisListener={true}
                 />
             </div>

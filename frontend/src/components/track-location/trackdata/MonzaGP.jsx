@@ -70,8 +70,8 @@ const MonzaGP = () => {
                     xAxis={[{ min: 0, max: 540}]}
                     yAxis={[{ min: 0, max: 300}]}
                     margin={{top:10, left: 40, right: 16, bottom: 13}}
-                    leftAxis={null}
-                    bottomAxis={null}
+                    //leftAxis={null}
+                    //bottomAxis={null}
                     disableAxisListener={true}
                 />
             </div>

@@ -5,7 +5,7 @@ import MonzaGP from "../trackdata/MonzaGP";
 const TrackBody = () => {
     return (
         <div className="dutch">
-            <MonzaGP/>
+            <DutchGP/>
         </div>
     );
 };
