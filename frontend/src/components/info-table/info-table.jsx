@@ -13,7 +13,7 @@ const InfoTable = () => {
 
     // Fetch the data from the backend API
     useEffect(() => {
-        fetch("localhost:8080/api/v1/infodata?" +
+        fetch("http://localhost:8080/api/v1/infodata?" +
             "driverNumbers=1" +
             "&driverNumbers=11" +
             "&driverNumbers=16" +
