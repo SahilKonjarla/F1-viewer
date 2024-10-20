@@ -14,10 +14,10 @@ public class BackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
 
-		String url1 = "https://api.openf1.org/v1/drivers?driver_number=1&session_key=9158";
+		/*String url1 = "https://api.openf1.org/v1/drivers?driver_number=1&session_key=9158";
 		String url2 = "https://api.openf1.org/v1/intervals?session_key=9165&interval<0.005";
 		String url3 = "https://api.openf1.org/v1/laps?session_key=9161&driver_number=63&lap_number=8";
-		String url4 = "https://api.openf1.org/v1/position?meeting_key=1217&driver_number=40&position=3";
+		String url4 = "https://api.openf1.org/v1/position?session_key=9140&driver_number=1";
 		String url5 = "https://api.openf1.org/v1/stints?session_key=9165&tyre_age_at_start=2";
 
 		WebClient.Builder clientBuilder = WebClient.builder();
@@ -37,8 +37,8 @@ public class BackendApplication {
 		infoData.setLaptime(laps.get(0).getLap_duration());
 		infoData.setCompound(stints.get(0).getCompound());
 		System.out.println("----------------------------");
-		System.out.println(infoData);
-		System.out.println("----------------------------");
+		System.out.println(position.get(2));
+		System.out.println("----------------------------");*/
 	}
 
 }

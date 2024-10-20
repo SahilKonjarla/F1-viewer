@@ -1,33 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import "./info-table.scss"
 
-const InfoTable = () => {
-    // Sample static data for F1 driver standings
-    const driverStandings = [
-        { position: 1, driver: "VER", tyre: "S", s1: 0, s2: 0, s3: 0, laptime: 0, interval: "Interval"},
-        { position: 2, driver: "HAM", tyre: "S", s1: 0, s2: 0, s3: 0, laptime: 0, interval: "Interval"},
-        { position: 3, driver: "NOR", tyre: "S", s1: 0, s2: 0, s3: 0, laptime: 0, interval: "Interval"},
-        { position: 4, driver: "SAI", tyre: "S", s1: 0, s2: 0, s3: 0, laptime: 0, interval: "Interval"},
-        { position: 5, driver: "LEC", tyre: "S", s1: 0, s2: 0, s3: 0, laptime: 0, interval: "Interval"},
-        { position: 6, driver: "ALB", tyre: "S", s1: 0, s2: 0, s3: 0, laptime: 0, interval: "Interval"},
-        { position: 7, driver: "COL", tyre: "S", s1: 0, s2: 0, s3: 0, laptime: 0, interval: "Interval"},
-        { position: 8, driver: "BOT", tyre: "S", s1: 0, s2: 0, s3: 0, laptime: 0, interval: "Interval"},
-        { position: 9, driver: "ALO", tyre: "S", s1: 0, s2: 0, s3: 0, laptime: 0, interval: "Interval"},
-        { position: 10, driver: "RUS", tyre: "S", s1: 0, s2: 0, s3: 0, laptime: 0, interval: "Interval"},
-        { position: 11, driver: "PIA", tyre: "S", s1: 0, s2: 0, s3: 0, laptime: 0, interval: "Interval"},
-        { position: 12, driver: "PER", tyre: "S", s1: 0, s2: 0, s3: 0, laptime: 0, interval: "Interval"},
-        { position: 13, driver: "TSU", tyre: "S", s1: 0, s2: 0, s3: 0, laptime: 0, interval: "Interval"},
-        { position: 14, driver: "LAW", tyre: "S", s1: 0, s2: 0, s3: 0, laptime: 0, interval: "Interval"},
-        { position: 15, driver: "GUA", tyre: "S", s1: 0, s2: 0, s3: 0, laptime: 0, interval: "Interval"},
-        { position: 16, driver: "OCO", tyre: "S", s1: 0, s2: 0, s3: 0, laptime: 0, interval: "Interval"},
-        { position: 17, driver: "GAS", tyre: "S", s1: 0, s2: 0, s3: 0, laptime: 0, interval: "Interval"},
-        { position: 18, driver: "MAG", tyre: "S", s1: 0, s2: 0, s3: 0, laptime: 0, interval: "Interval"},
-        { position: 19, driver: "HUL", tyre: "S", s1: 0, s2: 0, s3: 0, laptime: 0, interval: "Interval"},
-        { position: 20, driver: "STR", tyre: "S", s1: 0, s2: 0, s3: 0, laptime: 0, interval: "Interval"},
-    ];
+// Helper function to convert seconds to minutes:seconds format
+const formatLapTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = (seconds % 60).toFixed(3); // Keep three decimal places for milliseconds
+    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+};
 
-    // Total # of API calls per driver for all necessary information needed
-    // For 1 Driver: Intervals, laps, position, stints, Driver
+const InfoTable = () => {
+    const [driverStandings, setDriverInformation] = useState([]);
+
+    // Fetch the data from the backend API
+    useEffect(() => {
+        fetch("localhost:8080/api/v1/infodata?" +
+            "driverNumbers=1" +
+            "&driverNumbers=11" +
+            "&driverNumbers=16" +
+            "&driverNumbers=55" +
+            "&driverNumbers=44" +
+            "&driverNumbers=63" +
+            "&driverNumbers=31" +
+            "&driverNumbers=10" +
+            "&driverNumbers=4" +
+            "&driverNumbers=81" +
+            "&driverNumbers=77" +
+            "&driverNumbers=24" +
+            "&driverNumbers=18" +
+            "&driverNumbers=14" +
+            "&driverNumbers=20" +
+            "&driverNumbers=27" +
+            "&driverNumbers=3" +
+            "&driverNumbers=22" +
+            "&driverNumbers=23" +
+            "&driverNumbers=2")
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                // Sort drivers by position before setting the state
+                const sortedDrivers = data.sort((a, b) => a.position - b.position);
+                setDriverInformation(sortedDrivers)
+            })
+            .catch(error => console.error('Error fetching driver data:', error))
+    }, []);
+
 
     return (
         <div className="info-table">
@@ -56,7 +72,7 @@ const InfoTable = () => {
                         <td>{driver.s1}</td>
                         <td>{driver.s2}</td>
                         <td>{driver.s3}</td>
-                        <td>{driver.laptime}</td>
+                        <td>{formatLapTime(driver.laptime)}</td>
                         <td>{driver.interval}</td>
                     </tr>
                 ))}
