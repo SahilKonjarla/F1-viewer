@@ -2,43 +2,108 @@ package org.example.backend.service;
 
 import org.example.backend.api.model.*;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class DataService {
 
-    private final WebClient client = WebClient.builder().build();
+    private static final WebClient.Builder clientBuilder = WebClient.builder();
 
-    public Mono<List<Drivers>> fetchDrivers(Integer driverNumber) {
+    @Async
+    public CompletableFuture<List<Drivers>> fetchDrivers(Integer driverNumber) {
         String url = "https://api.openf1.org/v1/drivers?driver_number=" + driverNumber + "&session_key=9140";
-        return client.get().uri(url).retrieve().bodyToMono(new ParameterizedTypeReference<>() {});
+        List<Drivers> drivers = clientBuilder.build().get().uri(url).retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<Drivers>>() {}).block();
+        return CompletableFuture.completedFuture(drivers);
     }
 
-    public Mono<List<Interval>> fetchIntervals(Integer driverNumber, String currentUtcTime) {
+    @Async
+    public CompletableFuture<List<Interval>> fetchIntervals(Integer driverNumber, String currentUtcTime) {
         String url = "https://api.openf1.org/v1/intervals?session_key=9140&driver_number=" + driverNumber + "&date<=" + currentUtcTime;
-        return client.get().uri(url).retrieve().bodyToMono(new ParameterizedTypeReference<>() {});
+        List<Interval> intervals = clientBuilder.build().get().uri(url).retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<Interval>>() {}).block();
+        return CompletableFuture.completedFuture(intervals);
     }
 
-    public Mono<List<Laps>> fetchLaps(Integer driverNumber) {
+    @Async
+    public CompletableFuture<List<Laps>> fetchLaps(Integer driverNumber) {
         String url = "https://api.openf1.org/v1/laps?session_key=9140&driver_number=" + driverNumber + "&lap_number=2";
-        return client.get().uri(url).retrieve().bodyToMono(new ParameterizedTypeReference<>() {});
+        List<Laps> laps = clientBuilder.build().get().uri(url).retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<Laps>>() {}).block();
+        return CompletableFuture.completedFuture(laps);
     }
 
-    public Mono<List<Position>> fetchPositions(Integer driverNumber, String currentUtcTime) {
+    @Async
+    public CompletableFuture<List<Position>> fetchPositions(Integer driverNumber, String currentUtcTime) {
         String url = "https://api.openf1.org/v1/position?session_key=9140&driver_number=" + driverNumber + "&date<=" + currentUtcTime;
-        return client.get().uri(url).retrieve().bodyToMono(new ParameterizedTypeReference<>() {});
+        List<Position> positions = clientBuilder.build().get().uri(url).retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<Position>>() {}).block();
+        return CompletableFuture.completedFuture(positions);
     }
 
-    public Mono<List<Stints>> fetchStints(Integer driverNumber) {
+    @Async
+    public CompletableFuture<List<Stints>> fetchStints(Integer driverNumber) {
         String url = "https://api.openf1.org/v1/stints?session_key=9140&driver_number=" + driverNumber;
-        return client.get().uri(url).retrieve().bodyToMono(new ParameterizedTypeReference<>() {});
+        List<Stints> stints = clientBuilder.build().get().uri(url).retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<Stints>>() {}).block();
+        return CompletableFuture.completedFuture(stints);
+    }
+
+    public CompletableFuture<InfoData> getDriverData(Integer driverNumber) {
+        String currentUtcTime = Instant.now().atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
+
+        // Use the @Async methods to fetch data concurrently
+        CompletableFuture<List<Drivers>> driversFuture = fetchDrivers(driverNumber);
+        CompletableFuture<List<Interval>> intervalsFuture = fetchIntervals(driverNumber, currentUtcTime);
+        CompletableFuture<List<Laps>> lapsFuture = fetchLaps(driverNumber);
+        CompletableFuture<List<Position>> positionsFuture = fetchPositions(driverNumber, currentUtcTime);
+        CompletableFuture<List<Stints>> stintsFuture = fetchStints(driverNumber);
+
+        // Combine results once all are completed
+        return CompletableFuture.allOf(driversFuture, intervalsFuture, lapsFuture, positionsFuture, stintsFuture)
+                .thenApply(v -> {
+                    List<Drivers> drivers = driversFuture.join();
+                    List<Interval> intervals = intervalsFuture.join();
+                    List<Laps> laps = lapsFuture.join();
+                    List<Position> positions = positionsFuture.join();
+                    List<Stints> stints = stintsFuture.join();
+
+                    // Map the data to InfoData
+                    InfoData infoData = new InfoData();
+                    infoData.setDriver(drivers != null && !drivers.isEmpty() ? drivers.get(drivers.size() - 1).getName_acronym() : "N/A");
+                    infoData.setPosition(positions != null && !positions.isEmpty() ? positions.get(positions.size() - 1).getPosition() : 0);
+                    infoData.setInterval(intervals != null && !intervals.isEmpty() ? intervals.get(intervals.size() - 1).getInterval() : 0);
+                    infoData.setS1(laps != null && !laps.isEmpty() ? laps.get(laps.size() - 1).getDuration_sector_1() : 0);
+                    infoData.setS2(laps != null && !laps.isEmpty() ? laps.get(laps.size() - 1).getDuration_sector_2() : 0);
+                    infoData.setS3(laps != null && !laps.isEmpty() ? laps.get(laps.size() - 1).getDuration_sector_3() : 0);
+                    infoData.setLaptime(laps != null && !laps.isEmpty() ? laps.get(laps.size() - 1).getLap_duration() : 0);
+                    infoData.setCompound(stints != null && !stints.isEmpty() ? stints.get(stints.size() - 1).getCompound() : "N/A");
+
+                    return infoData;
+                });
+    }
+
+    public List<InfoData> getDataForMultipleDrivers(List<Integer> driverNumbers) {
+        List<InfoData> allDriverData = new ArrayList<>();
+
+        List<CompletableFuture<InfoData>> futures = new ArrayList<>();
+        for (Integer driverNumber : driverNumbers) {
+            futures.add(getDriverData(driverNumber));
+        }
+
+        // Wait for all futures to complete and gather the results
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+        futures.forEach(future -> allDriverData.add(future.join()));
+
+        return allDriverData;
     }
 }
