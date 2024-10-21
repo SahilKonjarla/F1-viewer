@@ -10,13 +10,56 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 @Service
 public class DataService {
 
     private static final WebClient.Builder clientBuilder = WebClient.builder();
+    private int currentLap = 1;
+    private static final Map<String, Integer> trackTotalLaps = new HashMap<>();
+
+    static {
+        trackTotalLaps.put("Monaco", 78);
+        trackTotalLaps.put("Silverstone", 52);
+        trackTotalLaps.put("Spa", 44);
+        trackTotalLaps.put("Jeddah", 50);
+        trackTotalLaps.put("Vegas", 50);
+        trackTotalLaps.put("Baku", 51);
+        trackTotalLaps.put("Monza", 53);
+        trackTotalLaps.put("Suzuka", 53);
+        trackTotalLaps.put("COTA", 56);
+        trackTotalLaps.put("Shanghai", 56);
+        trackTotalLaps.put("Bahrain", 57);
+        trackTotalLaps.put("Miami", 57);
+        trackTotalLaps.put("Qatar", 57);
+        trackTotalLaps.put("Australia", 58);
+        trackTotalLaps.put("Abu Dhabi", 58);
+        trackTotalLaps.put("Singapore", 62);
+        trackTotalLaps.put("Imola", 63);
+        trackTotalLaps.put("Spain", 66);
+        trackTotalLaps.put("Canada", 70);
+        trackTotalLaps.put("Hungary", 70);
+        trackTotalLaps.put("Austria", 71);
+        trackTotalLaps.put("Mexico", 71);
+        trackTotalLaps.put("Brazil", 71);
+        trackTotalLaps.put("Zandvoort", 72);
+    }
+
+    public int getTotalLapsForTrack(String track) {
+        return trackTotalLaps.getOrDefault(track, 50);
+    }
+
+    public int getCurrentLap() {
+        return currentLap;
+    }
+
+    public void updateLapNumber() {
+        currentLap++;
+    }
 
     @Async
     public CompletableFuture<List<Drivers>> fetchDrivers(Integer driverNumber) {
