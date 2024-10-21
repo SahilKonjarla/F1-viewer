@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import "./info-table.scss"
 
+
+// Helper function to format the interval based on position
+const formatInterval = (position, interval) => {
+    return position === 1 ? "Interval" : interval.toFixed(3); // Return "Interval" for position 1, otherwise format the interval with 3 decimals
+};
+
 // Helper function to convert seconds to minutes:seconds format
 const formatLapTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -13,35 +19,49 @@ const InfoTable = () => {
 
     // Fetch the data from the backend API
     useEffect(() => {
-        fetch("http://localhost:8080/api/v1/infodata?" +
-            "driverNumbers=1" +
-            "&driverNumbers=11" +
-            "&driverNumbers=16" +
-            "&driverNumbers=55" +
-            "&driverNumbers=44" +
-            "&driverNumbers=63" +
-            "&driverNumbers=31" +
-            "&driverNumbers=10" +
-            "&driverNumbers=4" +
-            "&driverNumbers=81" +
-            "&driverNumbers=77" +
-            "&driverNumbers=24" +
-            "&driverNumbers=18" +
-            "&driverNumbers=14" +
-            "&driverNumbers=20" +
-            "&driverNumbers=27" +
-            "&driverNumbers=3" +
-            "&driverNumbers=22" +
-            "&driverNumbers=23" +
-            "&driverNumbers=2")
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                // Sort drivers by position before setting the state
-                const sortedDrivers = data.sort((a, b) => a.position - b.position);
-                setDriverInformation(sortedDrivers)
-            })
-            .catch(error => console.error('Error fetching driver data:', error))
+        const fetchData = async () => {
+            try {
+                const response = await fetch("http://localhost:8080/api/v1/infodata?" +
+                    "driverNumbers=1" +
+                    "&driverNumbers=11" +
+                    "&driverNumbers=16" +
+                    "&driverNumbers=55" +
+                    "&driverNumbers=44" +
+                    "&driverNumbers=63" +
+                    "&driverNumbers=31" +
+                    "&driverNumbers=10" +
+                    "&driverNumbers=4" +
+                    "&driverNumbers=81" +
+                    "&driverNumbers=77" +
+                    "&driverNumbers=24" +
+                    "&driverNumbers=18" +
+                    "&driverNumbers=14" +
+                    "&driverNumbers=20" +
+                    "&driverNumbers=27" +
+                    "&driverNumbers=3" +
+                    "&driverNumbers=22" +
+                    "&driverNumbers=23" +
+                    "&driverNumbers=2", {
+                    method: "GET",
+                    headers: {
+                        'Content-Type' : 'application/json'
+                    },
+                    credentials: "include"
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        // Sort drivers by position before setting the state
+                        const sortedDrivers = data.sort((a, b) => a.position - b.position);
+                        setDriverInformation(sortedDrivers)
+                    })
+                    .catch(error => console.error('Error fetching driver data:', error))
+            } catch (e) {
+                console.error('Error fetching driver data:', e);
+            }
+        };
+
+        fetchData();
     }, []);
 
 
@@ -68,12 +88,12 @@ const InfoTable = () => {
                     <tr key={index}>
                         <td>{driver.position}</td>
                         <td>{driver.driver}</td>
-                        <td>{driver.tyre}</td>
+                        <td>{driver.compound}</td>
                         <td>{driver.s1}</td>
                         <td>{driver.s2}</td>
                         <td>{driver.s3}</td>
                         <td>{formatLapTime(driver.laptime)}</td>
-                        <td>{driver.interval}</td>
+                        <td>{formatInterval(driver.position, driver.interval)}</td>
                     </tr>
                 ))}
                 </tbody>
