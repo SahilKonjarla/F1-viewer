@@ -12,7 +12,6 @@ import java.util.List;
 
 @SpringBootApplication
 @EnableCaching
-@EnableAsync
 public class BackendApplication {
 
 	public static void main(String[] args) {

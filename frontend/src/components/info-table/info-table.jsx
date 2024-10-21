@@ -47,15 +47,16 @@ const InfoTable = () => {
                         'Content-Type' : 'application/json'
                     },
                     credentials: "include"
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data)
-                        // Sort drivers by position before setting the state
-                        const sortedDrivers = data.sort((a, b) => a.position - b.position);
-                        setDriverInformation(sortedDrivers)
-                    })
-                    .catch(error => console.error('Error fetching driver data:', error))
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                // Sort drivers by position before setting the state
+                const sortedDrivers = data.sort((a, b) => a.position - b.position);
+                setDriverInformation(sortedDrivers);
             } catch (e) {
                 console.error('Error fetching driver data:', e);
             }

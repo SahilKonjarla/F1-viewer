@@ -23,7 +23,6 @@ public class DataController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/api/v1/infodata")
-    @Async
     public List<InfoData> getData(@RequestParam List<Integer> driverNumbers) {
         return DataService.getData(driverNumbers);
     }
