@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class DataController {
@@ -23,7 +25,14 @@ public class DataController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/api/v1/infodata")
-    public List<InfoData> getData(@RequestParam List<Integer> driverNumbers) {
-        return dataService.getDataForMultipleDrivers(driverNumbers);
+    public Map<String, Object> getData(@RequestParam String trackName, @RequestParam List<Integer> driverNumbers) {
+        List<InfoData> driverData = dataService.getDataForMultipleDrivers(driverNumbers, dataService.getCurrentLap());
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("currentLap", dataService.getCurrentLap());
+        data.put("totalLaps", dataService.getTotalLapsForTrack(trackName));
+        data.put("driverData", driverData);
+
+        return data;
     }
 }

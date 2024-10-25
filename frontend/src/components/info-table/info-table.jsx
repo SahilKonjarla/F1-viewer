@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "./info-table.scss"
+import RaceWeekend from "../../controller/data/calendar-data/RaceWeekend";
 
 
 // Helper function to format the interval based on position
@@ -16,13 +17,19 @@ const formatLapTime = (seconds) => {
 
 const InfoTable = () => {
     const [driverStandings, setDriverInformation] = useState([]);
+    const [currentLap, setCurrentLap] = useState(1);
+    const [totalLaps, setTotalLaps] = useState(50);
+    const currentDate = new Date();
+    const nextRace = RaceWeekend.find(race => new Date(race.endDate) >= currentDate);
+    const race = nextRace || RaceWeekend[0];
 
     // Fetch the data from the backend API
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await fetch("http://localhost:8080/api/v1/infodata?" +
-                    "driverNumbers=1" +
+                    "trackName=" + race.trackName +
+                    "&driverNumbers=1" +
                     "&driverNumbers=11" +
                     "&driverNumbers=16" +
                     "&driverNumbers=55" +
@@ -54,8 +61,11 @@ const InfoTable = () => {
                 }
 
                 const data = await response.json();
+
+                setCurrentLap(data.currentLap)
+                setTotalLaps(data.totalLaps)
                 // Sort drivers by position before setting the state
-                const sortedDrivers = data.sort((a, b) => a.position - b.position);
+                const sortedDrivers = data.driverData.sort((a, b) => a.position - b.position);
                 setDriverInformation(sortedDrivers);
             } catch (e) {
                 console.error('Error fetching driver data:', e);
@@ -69,7 +79,7 @@ const InfoTable = () => {
     return (
         <div className="info-table">
             <div className="table-header">
-                <h2>Lap 1</h2>
+                <h2>Lap {currentLap} / {totalLaps}</h2>
             </div>
             <table>
                 <thead>

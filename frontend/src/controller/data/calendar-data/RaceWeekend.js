@@ -2,6 +2,7 @@ const RaceWeekends = [
     {
         round: 1,
         raceName: "Bahrain Grand Prix",
+        trackName: "Bahrain",
         date: "2024-02-29",
         schedule: {
             Friday: [
@@ -21,6 +22,7 @@ const RaceWeekends = [
     {
         round: 2,
         raceName: "Saudi Arabian Grand Prix",
+        trackName: "Jeddah",
         date: "2024-03-07",
         schedule: {
             Friday: [
@@ -40,6 +42,7 @@ const RaceWeekends = [
     {
         round: 3,
         raceName: "Australian Grand Prix",
+        trackName: "Australia",
         date: "2024-03-21",
         schedule: {
             Friday: [
@@ -59,6 +62,7 @@ const RaceWeekends = [
     {
         round: 4,
         raceName: "Japanese Grand Prix",
+        trackName: "Suzuka",
         date: "2024-04-04",
         schedule: {
             Friday: [
@@ -78,6 +82,7 @@ const RaceWeekends = [
     {
         round: 5,
         raceName: "Chinese Grand Prix",
+        trackName: "Shanghai",
         date: "2024-04-19",
         schedule: {
             Friday: [
@@ -97,6 +102,7 @@ const RaceWeekends = [
     {
         round: 6,
         raceName: "Miami Grand Prix",
+        trackName: "Miami",
         date: "2024-05-03",
         schedule: {
             Friday: [
@@ -116,6 +122,7 @@ const RaceWeekends = [
     {
         round: 7,
         raceName: "Emilia-Romagna Grand Prix",
+        trackName: "Imola",
         date: "2024-05-17",
         schedule: {
             Friday: [
@@ -135,6 +142,7 @@ const RaceWeekends = [
     {
         round: 8,
         raceName: "Monaco Grand Prix",
+        trackName: "Monaco",
         date: "2024-05-24",
         schedule: {
             Friday: [
@@ -154,6 +162,7 @@ const RaceWeekends = [
     {
         round: 9,
         raceName: "Canadian Grand Prix",
+        trackName: "Canada",
         date: "2024-06-07",
         schedule: {
             Friday: [
@@ -173,6 +182,7 @@ const RaceWeekends = [
     {
         round: 10,
         raceName: "Spanish Grand Prix",
+        trackName: "Spain",
         date: "2024-06-21",
         schedule: {
             Friday: [
@@ -192,6 +202,7 @@ const RaceWeekends = [
     {
         round: 11,
         raceName: "Austrian Grand Prix",
+        trackName: "Austria",
         date: "2024-06-28",
         schedule: {
             Friday: [
@@ -211,6 +222,7 @@ const RaceWeekends = [
     {
         round: 12,
         raceName: "British Grand Prix",
+        trackName: "Silverstone",
         date: "2024-07-05",
         schedule: {
             Friday: [
@@ -230,6 +242,7 @@ const RaceWeekends = [
     {
         round: 13,
         raceName: "Hungarian Grand Prix",
+        trackName: "Hungary",
         date: "2024-07-19",
         schedule: {
             Friday: [
@@ -249,6 +262,7 @@ const RaceWeekends = [
     {
         round: 14,
         raceName: "Belgian Grand Prix",
+        trackName: "Spa",
         date: "2024-07-26",
         schedule: {
             Friday: [
@@ -268,6 +282,7 @@ const RaceWeekends = [
     {
         round: 15,
         raceName: "Dutch Grand Prix",
+        trackName: "Zandvoort",
         date: "2024-08-23",
         schedule: {
             Friday: [
@@ -287,6 +302,7 @@ const RaceWeekends = [
     {
         round: 16,
         raceName: "Italian Grand Prix",
+        trackName: "Monza",
         date: "2024-08-30",
         schedule: {
             Friday: [
@@ -306,6 +322,7 @@ const RaceWeekends = [
     {
         round: 17,
         raceName: "Azerbaijan Grand Prix",
+        trackName: "Baku",
         date: "2024-09-14",
         schedule: {
             Friday: [
@@ -325,6 +342,7 @@ const RaceWeekends = [
     {
         round: 18,
         raceName: "Singapore Grand Prix",
+        trackName: "Singapore",
         date: "2024-09-20",
         schedule: {
             Friday: [
@@ -344,6 +362,7 @@ const RaceWeekends = [
     {
         round: 19,
         raceName: "United States Grand Prix",
+        trackName: "COTA",
         date: "2024-10-18",
         schedule: {
             Friday: [
@@ -363,6 +382,7 @@ const RaceWeekends = [
     {
         round: 20,
         raceName: "Mexico City Grand Prix",
+        trackName: "Mexico",
         date: "2024-10-25",
         schedule: {
             Friday: [
@@ -382,6 +402,7 @@ const RaceWeekends = [
     {
         round: 21,
         raceName: "Brazilian Grand Prix",
+        trackName: "Brazil",
         date: "2024-11-01",
         schedule: {
             Friday: [
@@ -401,6 +422,7 @@ const RaceWeekends = [
     {
         round: 22,
         raceName: "Las Vegas Grand Prix",
+        trackName: "Vegas",
         date: "2024-11-21",
         schedule: {
             Friday: [
@@ -420,6 +442,7 @@ const RaceWeekends = [
     {
         round: 23,
         raceName: "Qatar Grand Prix",
+        trackName: "Qatar",
         date: "2024-11-29",
         schedule: {
             Friday: [
@@ -439,6 +462,7 @@ const RaceWeekends = [
     {
         round: 25,
         raceName: "Abu Dhabi Grand Prix",
+        trackName: "AbuDhabi",
         date: "2024-12-06",
         schedule: {
             Friday: [
