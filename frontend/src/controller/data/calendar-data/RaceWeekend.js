@@ -17,7 +17,7 @@ const RaceWeekends = [
                 { name: "Race", time: "07:00" },
             ],
         },
-        endDate: "2024-03-02"
+        endDate: "2024-03-03"
     },
     {
         round: 2,
@@ -37,7 +37,7 @@ const RaceWeekends = [
                 { name: "Race", time: "09:00" },
             ],
         },
-        endDate: "2024-03-09"
+        endDate: "2024-03-10"
     },
     {
         round: 3,
@@ -57,7 +57,7 @@ const RaceWeekends = [
                 { name: "Race", time: "21:00" },
             ],
         },
-        endDate: "2024-03-23"
+        endDate: "2024-03-24"
     },
     {
         round: 4,
@@ -77,7 +77,7 @@ const RaceWeekends = [
                 { name: "Race", time: "22:00" },
             ],
         },
-        endDate: "2024-03-06"
+        endDate: "2024-03-07"
     },
     {
         round: 5,
@@ -97,7 +97,7 @@ const RaceWeekends = [
                 { name: "Race", time: "00:00" },
             ],
         },
-        endDate: "2024-04-21"
+        endDate: "2024-04-22"
     },
     {
         round: 6,
@@ -117,7 +117,7 @@ const RaceWeekends = [
                 { name: "Race", time: "13:00" },
             ],
         },
-        endDate: "2024-04-05"
+        endDate: "2024-04-06"
     },
     {
         round: 7,
@@ -137,7 +137,7 @@ const RaceWeekends = [
                 { name: "Race", time: "06:00" },
             ],
         },
-        endDate: "2024-05-19"
+        endDate: "2024-05-20"
     },
     {
         round: 8,
@@ -157,7 +157,7 @@ const RaceWeekends = [
                 { name: "Race", time: "06:00" },
             ],
         },
-        endDate: "2024-05-26"
+        endDate: "2024-05-27"
     },
     {
         round: 9,
@@ -177,7 +177,7 @@ const RaceWeekends = [
                 { name: "Race", time: "11:00" },
             ],
         },
-        endDate: "2024-06-09"
+        endDate: "2024-06-10"
     },
     {
         round: 10,
@@ -197,7 +197,7 @@ const RaceWeekends = [
                 { name: "Race", time: "06:00" },
             ],
         },
-        endDate: "2024-06-23"
+        endDate: "2024-06-24"
     },
     {
         round: 11,
@@ -217,7 +217,7 @@ const RaceWeekends = [
                 { name: "Race", time: "06:00" },
             ],
         },
-        endDate: "2024-06-30"
+        endDate: "2024-07-01"
     },
     {
         round: 12,
@@ -237,7 +237,7 @@ const RaceWeekends = [
                 { name: "Race", time: "07:00" },
             ],
         },
-        endDate: "2024-07-07"
+        endDate: "2024-07-08"
     },
     {
         round: 13,
@@ -257,7 +257,7 @@ const RaceWeekends = [
                 { name: "Race", time: "06:00" },
             ],
         },
-        endDate: "2024-07-21"
+        endDate: "2024-07-22"
     },
     {
         round: 14,
@@ -277,7 +277,7 @@ const RaceWeekends = [
                 { name: "Race", time: "06:00" },
             ],
         },
-        endDate: "2024-07-28"
+        endDate: "2024-07-29"
     },
     {
         round: 15,
@@ -297,7 +297,7 @@ const RaceWeekends = [
                 { name: "Race", time: "06:00" },
             ],
         },
-        endDate: "2024-06-23"
+        endDate: "2024-06-24"
     },
     {
         round: 16,
@@ -317,7 +317,7 @@ const RaceWeekends = [
                 { name: "Race", time: "06:00" },
             ],
         },
-        endDate: "2024-09-01"
+        endDate: "2024-09-02"
     },
     {
         round: 17,
@@ -337,7 +337,7 @@ const RaceWeekends = [
                 { name: "Race", time: "04:00" },
             ],
         },
-        endDate: "2024-09-15"
+        endDate: "2024-09-16"
     },
     {
         round: 18,
@@ -357,7 +357,7 @@ const RaceWeekends = [
                 { name: "Race", time: "05:00" },
             ],
         },
-        endDate: "2024-09-22"
+        endDate: "2024-09-23"
     },
     {
         round: 19,
@@ -377,7 +377,7 @@ const RaceWeekends = [
                 { name: "Race", time: "12:00" },
             ],
         },
-        endDate: "2024-10-20"
+        endDate: "2024-10-21"
     },
     {
         round: 20,
@@ -397,7 +397,7 @@ const RaceWeekends = [
                 { name: "Race", time: "13:00" },
             ],
         },
-        endDate: "2024-10-27"
+        endDate: "2024-10-28"
     },
     {
         round: 21,
@@ -417,7 +417,7 @@ const RaceWeekends = [
                 { name: "Race", time: "09:00" },
             ],
         },
-        endDate: "2024-11-03"
+        endDate: "2024-11-04"
     },
     {
         round: 22,
@@ -437,7 +437,7 @@ const RaceWeekends = [
                 { name: "Race", time: "22:00" },
             ],
         },
-        endDate: "2024-11-23"
+        endDate: "2024-11-24"
     },
     {
         round: 23,
@@ -457,7 +457,7 @@ const RaceWeekends = [
                 { name: "Race", time: "08:00" },
             ],
         },
-        endDate: "2024-12-01"
+        endDate: "2024-12-02"
     },
     {
         round: 25,
@@ -477,7 +477,7 @@ const RaceWeekends = [
                 { name: "Race", time: "05:00" },
             ],
         },
-        endDate: "2024-12-08"
+        endDate: "2024-12-09"
     },
 ]
 

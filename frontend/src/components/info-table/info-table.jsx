@@ -45,10 +45,10 @@ const InfoTable = () => {
                     "&driverNumbers=14" +
                     "&driverNumbers=20" +
                     "&driverNumbers=27" +
-                    "&driverNumbers=3" +
+                    "&driverNumbers=30" +
                     "&driverNumbers=22" +
                     "&driverNumbers=23" +
-                    "&driverNumbers=2", {
+                    "&driverNumbers=43", {
                     method: "GET",
                     headers: {
                         'Content-Type' : 'application/json'
@@ -72,7 +72,9 @@ const InfoTable = () => {
             }
         };
 
-        fetchData();
+        fetchData()
+        //const interval = setInterval(fetchData, 90000);
+        //return () => clearInterval(interval);
     }, []);
 
 

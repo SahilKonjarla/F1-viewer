@@ -16,11 +16,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
+/*
+Things to fix:
+Improve compilation time of Data and passing to the front end
+*/
 @Service
 public class DataServiceImpl implements DataService {
 
     private static final WebClient.Builder clientBuilder = WebClient.builder();
-    private int currentLap = 1;
+    private int currentLap = 58;
     private static final Map<String, Integer> trackTotalLaps = new HashMap<>();
 
     static {
@@ -80,7 +84,8 @@ public class DataServiceImpl implements DataService {
 
     @Async
     public CompletableFuture<List<Laps>> fetchLaps(Integer driverNumber, Integer lapNumber) {
-        String url = "https://api.openf1.org/v1/laps?session_key=latest&driver_number=" + driverNumber + "&lap_number=" + lapNumber;
+        Integer lapNum = lapNumber - 1;
+        String url = "https://api.openf1.org/v1/laps?session_key=latest&driver_number=" + driverNumber + "&lap_number=" + lapNum;
         List<Laps> laps = clientBuilder.build().get().uri(url).retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<Laps>>() {}).block();
         return CompletableFuture.completedFuture(laps);
@@ -132,6 +137,7 @@ public class DataServiceImpl implements DataService {
                     infoData.setLaptime(laps != null && !laps.isEmpty() ? laps.get(laps.size() - 1).getLap_duration() : 0);
                     infoData.setCompound(stints != null && !stints.isEmpty() ? stints.get(stints.size() - 1).getCompound() : "N/A");
 
+                    System.out.println(infoData);
                     return infoData;
                 });
     }
