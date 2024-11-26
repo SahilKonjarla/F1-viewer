@@ -103,8 +103,8 @@ public class DataServiceImpl implements DataService {
     }
 
     @Async
-    public CompletableFuture<List<Stints>> fetchStints() {
-        String url = "https://api.openf1.org/v1/stints?session_key=latest&stint_number=1";
+    public CompletableFuture<List<Stints>> fetchStints(Integer stintNumber) {
+        String url = "https://api.openf1.org/v1/stints?session_key=latest&stint_number=" + stintNumber;
         List<Stints> stints = clientBuilder.build().get().uri(url).retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<Stints>>() {}).block();
         return CompletableFuture.completedFuture(stints);
@@ -112,12 +112,13 @@ public class DataServiceImpl implements DataService {
 
     public CompletableFuture<InfoData> getDriverData(Integer driverNumber, Integer lapNumber) {
         String currentUtcTime = Instant.now().atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
+        Integer stintNumber = 1;
 
         // Use the @Async methods to fetch data concurrently
         CompletableFuture<List<Interval>> intervalsFuture = fetchIntervals(driverNumber, currentUtcTime);
         CompletableFuture<List<Laps>> lapsFuture = fetchLaps(lapNumber);
         CompletableFuture<List<Position>> positionsFuture = fetchPositions(driverNumber, currentUtcTime);
-        CompletableFuture<List<Stints>> stintsFuture = fetchStints();
+        CompletableFuture<List<Stints>> stintsFuture = fetchStints(stintNumber);
 
         // Combine results once all are completed
         return CompletableFuture.allOf(intervalsFuture, lapsFuture, positionsFuture, stintsFuture)

@@ -26,7 +26,7 @@ public interface DataService {
     CompletableFuture<List<Position>> fetchPositions(Integer driverNumber, String currentUtcTime);
 
     @Async
-    CompletableFuture<List<Stints>> fetchStints();
+    CompletableFuture<List<Stints>> fetchStints(Integer stintNumber);
 
     CompletableFuture<InfoData> getDriverData(Integer driverNumber, Integer lapNumber);
 

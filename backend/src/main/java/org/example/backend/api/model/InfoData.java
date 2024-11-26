@@ -11,9 +11,6 @@ public class InfoData {
     private int position;
     @Getter
     @Setter
-    private String driver;
-    @Getter
-    @Setter
     private String compound;
     @Getter
     @Setter
@@ -35,7 +32,6 @@ public class InfoData {
     public String toString() {
         return "InfoData{" +
                 "position=" + position +
-                ", driver='" + driver + '\'' +
                 ", compound='" + compound + '\'' +
                 ", s1=" + s1 +
                 ", s2=" + s2 +
