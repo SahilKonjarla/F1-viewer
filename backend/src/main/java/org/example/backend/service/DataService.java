@@ -14,19 +14,19 @@ public interface DataService {
     void updateLapNumber();
 
     @Async
-    CompletableFuture<List<Drivers>> fetchDrivers(Integer driverNumber);
+    CompletableFuture<List<Drivers>> fetchDrivers();
 
     @Async
-    CompletableFuture<List<Interval>> fetchIntervals(Integer driverNumber, String currentUtcTime);
+    CompletableFuture<List<Interval>> fetchIntervals(Integer driverNumber , String currentUtcTime);
 
     @Async
-    CompletableFuture<List<Laps>> fetchLaps(Integer driverNumber, Integer lapNumber);
+    CompletableFuture<List<Laps>> fetchLaps(Integer lapNumber);
 
     @Async
     CompletableFuture<List<Position>> fetchPositions(Integer driverNumber, String currentUtcTime);
 
     @Async
-    CompletableFuture<List<Stints>> fetchStints(Integer driverNumber);
+    CompletableFuture<List<Stints>> fetchStints();
 
     CompletableFuture<InfoData> getDriverData(Integer driverNumber, Integer lapNumber);
 

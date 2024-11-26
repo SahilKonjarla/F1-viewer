@@ -1,5 +1,6 @@
 package org.example.backend.api.controller;
 
+import org.example.backend.api.model.Drivers;
 import org.example.backend.api.model.InfoData;
 import org.example.backend.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 public class DataController {
@@ -33,5 +35,11 @@ public class DataController {
         data.put("driverData", driverData);
 
         return data;
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("api/v1/drivers")
+    public CompletableFuture<List<Drivers>> getDrivers() {
+        return dataService.fetchDrivers();
     }
 }

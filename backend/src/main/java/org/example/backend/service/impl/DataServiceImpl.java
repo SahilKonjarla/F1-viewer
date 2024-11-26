@@ -67,41 +67,44 @@ public class DataServiceImpl implements DataService {
     }
 
     @Async
-    public CompletableFuture<List<Drivers>> fetchDrivers(Integer driverNumber) {
-        String url = "https://api.openf1.org/v1/drivers?session_key=latest&driver_number=" + driverNumber;
+    public CompletableFuture<List<Drivers>> fetchDrivers() {
+        String url = "https://api.openf1.org/v1/drivers?session_key=latest";
         List<Drivers> drivers = clientBuilder.build().get().uri(url).retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<Drivers>>() {}).block();
+        System.out.println("Drivers fetched: " + drivers);
         return CompletableFuture.completedFuture(drivers);
     }
 
     @Async
     public CompletableFuture<List<Interval>> fetchIntervals(Integer driverNumber, String currentUtcTime) {
-        String url = "https://api.openf1.org/v1/intervals?session_key=latest&driver_number=" + driverNumber + "&date<=" + currentUtcTime;
+        String url = "https://api.openf1.org/v1/intervals?session_key=latest&date<=" + currentUtcTime;
         List<Interval> intervals = clientBuilder.build().get().uri(url).retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<Interval>>() {}).block();
         return CompletableFuture.completedFuture(intervals);
     }
 
+    // I don't need driver number for this I can just call this for all drivers based on lapNum
     @Async
-    public CompletableFuture<List<Laps>> fetchLaps(Integer driverNumber, Integer lapNumber) {
+    public CompletableFuture<List<Laps>> fetchLaps(Integer lapNumber) {
         Integer lapNum = lapNumber - 1;
-        String url = "https://api.openf1.org/v1/laps?session_key=latest&driver_number=" + driverNumber + "&lap_number=" + lapNum;
+        String url = "https://api.openf1.org/v1/laps?session_key=latest&lap_number=" + lapNum;
         List<Laps> laps = clientBuilder.build().get().uri(url).retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<Laps>>() {}).block();
         return CompletableFuture.completedFuture(laps);
     }
 
+    //
     @Async
     public CompletableFuture<List<Position>> fetchPositions(Integer driverNumber, String currentUtcTime) {
-        String url = "https://api.openf1.org/v1/position?session_key=latest&driver_number=" + driverNumber + "&date<=" + currentUtcTime;
+        String url = "https://api.openf1.org/v1/position?session_key=latest&date<=" + currentUtcTime;
         List<Position> positions = clientBuilder.build().get().uri(url).retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<Position>>() {}).block();
         return CompletableFuture.completedFuture(positions);
     }
 
     @Async
-    public CompletableFuture<List<Stints>> fetchStints(Integer driverNumber) {
-        String url = "https://api.openf1.org/v1/stints?session_key=latestdriver_number=" + driverNumber;
+    public CompletableFuture<List<Stints>> fetchStints() {
+        String url = "https://api.openf1.org/v1/stints?session_key=latest&stint_number=1";
         List<Stints> stints = clientBuilder.build().get().uri(url).retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<Stints>>() {}).block();
         return CompletableFuture.completedFuture(stints);
@@ -111,16 +114,14 @@ public class DataServiceImpl implements DataService {
         String currentUtcTime = Instant.now().atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
 
         // Use the @Async methods to fetch data concurrently
-        CompletableFuture<List<Drivers>> driversFuture = fetchDrivers(driverNumber);
         CompletableFuture<List<Interval>> intervalsFuture = fetchIntervals(driverNumber, currentUtcTime);
-        CompletableFuture<List<Laps>> lapsFuture = fetchLaps(driverNumber, lapNumber);
+        CompletableFuture<List<Laps>> lapsFuture = fetchLaps(lapNumber);
         CompletableFuture<List<Position>> positionsFuture = fetchPositions(driverNumber, currentUtcTime);
-        CompletableFuture<List<Stints>> stintsFuture = fetchStints(driverNumber);
+        CompletableFuture<List<Stints>> stintsFuture = fetchStints();
 
         // Combine results once all are completed
-        return CompletableFuture.allOf(driversFuture, intervalsFuture, lapsFuture, positionsFuture, stintsFuture)
+        return CompletableFuture.allOf(intervalsFuture, lapsFuture, positionsFuture, stintsFuture)
                 .thenApply(v -> {
-                    List<Drivers> drivers = driversFuture.join();
                     List<Interval> intervals = intervalsFuture.join();
                     List<Laps> laps = lapsFuture.join();
                     List<Position> positions = positionsFuture.join();
@@ -128,7 +129,6 @@ public class DataServiceImpl implements DataService {
 
                     // Map the data to InfoData
                     InfoData infoData = new InfoData();
-                    infoData.setDriver(drivers != null && !drivers.isEmpty() ? drivers.get(drivers.size() - 1).getName_acronym() : "N/A");
                     infoData.setPosition(positions != null && !positions.isEmpty() ? positions.get(positions.size() - 1).getPosition() : 0);
                     infoData.setInterval(intervals != null && !intervals.isEmpty() ? intervals.get(intervals.size() - 1).getInterval() : 0);
                     infoData.setS1(laps != null && !laps.isEmpty() ? laps.get(laps.size() - 1).getDuration_sector_1() : 0);
